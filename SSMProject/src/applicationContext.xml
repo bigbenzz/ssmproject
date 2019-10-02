@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+	<bean id="studentService" class="org.ben.service.impl.StudentServiceImpl">
+		<property name="studentMapper" ref="studentMapper"></property>
+	</bean>
+	
+	
+
+	<bean id="config" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<property name="locations">
+			<array>
+				<value>classpath:db.properties</value>
+			</array>
+		</property>
+	</bean>
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		
+	</bean>
+
+
+
+<!-- 数据源和mapper文件 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<!-- 数据库连接池 -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- mybatis的conf.xml就不用配置了 这里同样可以加载mapper.xml路径 -->
+		<property name="mapperLocations" value="classpath:org/ben/mapper/*.xml">
+		</property>
+	
+	</bean>
+	
+	
+	<!-- 扫描包 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+		<!-- 这样就能直接用mapper包中接口的小写来调用接口中的方法 见impl实现类中 -->
+		<property name="basePackage" value="org.ben.mapper"></property>
+	</bean>
+	
+	
+
+
+
+</beans>

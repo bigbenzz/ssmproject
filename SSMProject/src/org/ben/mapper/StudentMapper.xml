@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace需要和实现接口类的全类名一致  CRUD语句的id则是实现类接口中的方法名 //mybatis知识 -->
+<mapper namespace="org.ben.mapper.StudentMapper">
+	
+
+	<select id="queryStudentByNo" parameterType="int" resultType="org.ben.entity.Student">
+		select stuNo,stuName,stuAge,graName from student where stuNo=#{stuNo}
+	</select>
+	
+	<insert id="addStudent" parameterType="org.ben.entity.Student">
+		insert into student(stuno,stuname,stuage,graname) values (#{stuNo},#{stuName},#{stuAge},#{graName})
+	</insert>
+	<select id="queryAllStudent" resultType="org.ben.entity.Student">
+		select * from student
+	</select>
+	<!-- 登陆验证 -->
+	<select id="loginCheck" parameterType="org.ben.entity.User" resultType="int">
+		select count(*) from user where uname=#{uname} and upwd=#{upwd}
+	</select>
+	<insert id="Register" parameterType="org.ben.entity.User">
+		insert into user(uname,upwd) values (#{uname},#{upwd})
+	</insert>
+	<select id="checkRegiest" parameterType="String" resultType="int">
+		select count(*) from user where uname=#{uname}
+	</select>
+	<select id="getINFCount" resultType="int">
+		select count(*) from student
+	</select>
+	<select id="findBlogs" resultType="org.ben.entity.Student" parameterType="org.ben.entity.Params">
+		select * from Student limit #{pageSize},#{pageNo}
+	</select>
+</mapper>
