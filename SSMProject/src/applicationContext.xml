@@ -30,7 +30,7 @@
 
 
 
-<!-- 数据源和mapper文件 -->
+<!-- 数据源和mapper文件###### -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 	<!-- 数据库连接池 -->
 		<property name="dataSource" ref="dataSource"/>
